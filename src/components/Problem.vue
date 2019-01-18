@@ -1,5 +1,5 @@
 <template>
-  <div class="Game">
+  <div class="Problem">
 
     <div class="top-number">&nbsp;{{ topNumber }}</div>
     <div class="bottom-number">- {{ bottomNumber }}</div>
@@ -17,7 +17,7 @@
   import Vue from 'vue';
 
   export default Vue.extend({
-    name: 'game',
+    name: 'problem',
     data() {
       return {
         minNumber: 1,
