@@ -5,6 +5,8 @@
       <div class="col-12" v-if="answerHistory.length < settings.math.maxProblems">
         <div class="row">
           <div class="col-12 col-sm-5 col-md-4 col-lg-3 mx-auto">
+            <heart-box :max-hearts="maxHearts" :current-hearts="hearts"></heart-box>
+            <progress-bar></progress-bar>
             <math-problem :top-number="problem.topNumber" :bottom-number="problem.bottomNumber" :operator="problem.operator"
               @get-answer="getAnswer"></math-problem>
             <p>Correct: {{ correct.length }}</p>
@@ -37,8 +39,10 @@
 </template>
 
 <script>
-  import BsIndicator from './components/BsIndicator.vue'
-  import MathProblem from './components/MathProblem.vue'
+  import BsIndicator from './components/BsIndicator.vue';
+  import MathProblem from './components/MathProblem.vue';
+  import HeartBox from './components/HeartBox.vue';
+  import ProgressBar from './components/ProgressBar.vue';
   import {
     MathSettings
   } from './data/settings.js'
@@ -47,6 +51,18 @@
     components: {
       BsIndicator,
       MathProblem,
+      HeartBox,
+      ProgressBar,
+    },
+    props: {
+      maxHearts: {
+        default: 3,
+        type: Number
+      },
+      startingHearts: {
+        default: 3,
+        type: Number,
+      }
     },
     data() {
       return {
@@ -88,7 +104,27 @@
         return this.answerHistory.filter((h) => {
           return h.correct
         })
-      }
+      },
+      hearts() {
+        let hearts = this.startingHearts;
+        let consecCorrect = 0;
+        const awardHeartAt = 2;
+
+        for(let i = this.answerHistory.length - 1; i >= 0; i--){
+          let problem = this.answerHistory[i];
+          if(problem.correct){
+            consecCorrect++;
+            if(consecCorrect === awardHeartAt && hearts < this.maxHearts){
+              consecCorrect = 0;
+              hearts++;
+            }
+          }else{
+            consecCorrect = 0;
+            hearts--;
+          }
+        }
+        return hearts;
+      },
     }
   }
 </script>
