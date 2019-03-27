@@ -3,13 +3,13 @@ const MathSettings = {
       name: 'addition',
       operator: '+',
       min: 4,
-      max: 16,
+      max: 25,
     },
     {
       name: 'subtraction',
       operator: '-',
       min: 2,
-      max: 14,
+      max: 22,
     }
   ],
   highestOnTop: true,
